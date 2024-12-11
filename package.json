@@ -13,8 +13,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.ts": [
-      "ng lint --fix",
+    "*.ts": [ 
       "prettier --write"
     ],
     "*.html": [

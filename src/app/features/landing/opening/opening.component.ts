@@ -14,6 +14,7 @@ export class OpeningComponent {
 
   resource() {
     this.httpClient
+
       .get('http://myhost:8082/market-order/market/api/v1/order/status/ordered')
       .subscribe({
         next: (response) => console.info(response),
