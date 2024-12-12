@@ -17,8 +17,8 @@ export class OpeningComponent {
 
       .get('http://myhost:8082/market-order/market/api/v1/order/status/ordered')
       .subscribe({
-        next: (response) => console.info(response),
-        complete: () => console.info('complete'),
+        next: (response) => response,
+        complete: () => 'complete',
       });
   }
 
