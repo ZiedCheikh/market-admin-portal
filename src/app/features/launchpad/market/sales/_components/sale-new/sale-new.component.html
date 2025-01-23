@@ -1,0 +1,38 @@
+<div class="sale-form-container">
+  <h2>Nouvelle Vente</h2>
+  <form [formGroup]="saleForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="title">Titre:</label>
+      <input id="title" formControlName="title" autocomplete="off" />
+    </div>
+
+    <div>
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description" autocomplete="off"> </textarea>
+    </div>
+
+    <div>
+      <label for="startDate">Date Début:</label>
+      <input id="startDate" type="date" formControlName="startDate" autocomplete="off" />
+    </div>
+
+    <div>
+      <label for="endDate">Date Fin:</label>
+      <input id="endDate" type="date" formControlName="endDate" autocomplete="off" />
+    </div>
+
+    <div>
+      <label for="category">Catégorie:</label>
+      <select name="category" id="category">
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="opel">Opel</option>
+        <option value="audi">Audi</option>
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="saleForm.invalid">Submit</button>
+  </form>
+
+  <p *ngIf="submissionStatus()">{{ submissionStatus() }}</p>
+</div>
