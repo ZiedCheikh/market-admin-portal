@@ -1,7 +1,9 @@
+type ISODateString = `${number}-${number}-${number}T${string}`;
+
 export interface Sale {
-  id: string | null;
-  title: string | null;
-  description: string | null;
-  start_date: string | null;
-  end_date: string | null;
+  id?: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: ISODateString;
 }

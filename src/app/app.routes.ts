@@ -19,7 +19,7 @@ export const routes: Routes = [
       import('./features/launchpad/launchpad-routing.module').then((mod) => mod.LAUNCHPAD_ROUTES),
   },
   {
-    path: 'error',
+    path: 'server/error',
     component: ServerErrorComponent,
   },
   {

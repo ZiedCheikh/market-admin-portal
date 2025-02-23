@@ -3,11 +3,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, map, mergeMap, catchError } from 'rxjs';
 import {
   ADD_SALE,
+  LOAD_SALES_BY_STATUS,
   AddSaleFailureAction,
   AddSaleSuccesAction,
-  LOAD_SALES,
-  LoadSalesFailureAction,
-  LoadSalesSucessAction,
+  LoadSalesByStatusFailureAction,
+  LoadSalesByStatusSucessAction,
 } from './sale.actions';
 
 import { SalesService } from '../_services/sales.service';
@@ -17,13 +17,13 @@ export class SalesEffects {
   private actions$ = inject(Actions);
   private salesService = inject(SalesService);
 
-  loadSales$ = createEffect(() =>
+  loadSalesByStatus$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(LOAD_SALES),
-      mergeMap(() =>
-        this.salesService.getSales().pipe(
-          map((sales) => new LoadSalesSucessAction(sales)),
-          catchError((error) => of(new LoadSalesFailureAction(error)))
+      ofType(LOAD_SALES_BY_STATUS),
+      mergeMap((action) =>
+        this.salesService.getSalesByStatus(action.status).pipe(
+          map((sales) => new LoadSalesByStatusSucessAction(sales)),
+          catchError((error) => of(new LoadSalesByStatusFailureAction(error.error)))
         )
       )
     )
@@ -33,7 +33,7 @@ export class SalesEffects {
     this.actions$.pipe(
       ofType(ADD_SALE),
       mergeMap((action) =>
-        this.salesService.addSale(action.sale).pipe(
+        this.salesService.createSale(action.sale).pipe(
           map((sale) => new AddSaleSuccesAction(sale)),
           catchError((error) => of(new AddSaleFailureAction(error)))
         )

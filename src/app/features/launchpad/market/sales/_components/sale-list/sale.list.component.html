@@ -1,0 +1,6 @@
+<div *ngIf="loading$ | async">Loading...</div>
+<ul>
+  <li *ngFor="let sale of salesByStatus$ | async">{{ sale.title }} - {{ sale.description }}</li>
+</ul>
+
+<p *ngIf="error$ | async as error">error: {{ error.status }} - {{ error.message }}</p>

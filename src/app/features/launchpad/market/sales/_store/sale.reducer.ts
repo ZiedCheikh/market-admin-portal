@@ -4,40 +4,41 @@ import {
   ADD_SALE,
   ADD_SALE_FAILURE,
   ADD_SALE_SUCEESS,
+  LOAD_SALES_BY_STATUS,
+  LOAD_SALES_BY_STATUS_SUCCESS,
+  LOAD_SALES_BY_STATUS_FAILURE,
+  LoadSalesByStatusFailureAction,
+  LoadSalesByStatusSucessAction,
   AddSaleFailureAction,
   AddSaleSuccesAction,
-  LOAD_SALES,
-  LOAD_SALES_FAILURE,
-  LOAD_SALES_SUCESS,
-  LoadSalesFailureAction,
-  LoadSalesSucessAction,
   SalesActions,
 } from './sale.actions';
+import { Error } from '../../../../../shared/models/error.model';
 
 export interface SalesState {
-  sales: Sale[];
+  salesByStatus: Sale[];
   loading: boolean;
-  error: string | null;
+  error: Error | null;
 }
 
 export const initialSalesState: SalesState = {
-  sales: [],
+  salesByStatus: [],
   loading: false,
   error: null,
 };
 
 export function salesReducer(state = initialSalesState, action: SalesActions | Action) {
-  if (action.type === LOAD_SALES) {
+  if (action.type === LOAD_SALES_BY_STATUS) {
     return { ...state, loading: true };
   }
 
-  if (action.type === LOAD_SALES_SUCESS) {
-    const sales = (action as LoadSalesSucessAction).sales;
-    return { ...state, loading: false, sales };
+  if (action.type === LOAD_SALES_BY_STATUS_SUCCESS) {
+    const salesByStatus = (action as LoadSalesByStatusSucessAction).sales;
+    return { ...state, loading: false, salesByStatus };
   }
 
-  if (action.type === LOAD_SALES_FAILURE) {
-    const error = (action as LoadSalesFailureAction).error;
+  if (action.type === LOAD_SALES_BY_STATUS_FAILURE) {
+    const error = (action as LoadSalesByStatusFailureAction).error;
     return { ...state, loading: false, error };
   }
 
@@ -47,8 +48,8 @@ export function salesReducer(state = initialSalesState, action: SalesActions | A
 
   if (action.type === ADD_SALE_SUCEESS) {
     const sale = (action as AddSaleSuccesAction).sale;
-    const sales = [...state.sales, sale];
-    return { ...state, loading: false, sales };
+    const sales = [...state.salesByStatus, sale];
+    return { ...state, salesByStatus: sales, loading: false };
   }
 
   if (action.type === ADD_SALE_FAILURE) {

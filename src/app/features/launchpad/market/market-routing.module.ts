@@ -9,11 +9,11 @@ export const MARKET_ROUTES: Route[] = [
   {
     path: 'sale-add',
     loadComponent: () =>
-      import('./sales/sale-add/sale-add.component').then((mod) => mod.SaleAddComponent),
+      import('./sales/sale-add/sale.add.component').then((mod) => mod.SaleAddComponent),
   },
   {
     path: 'sale-update',
     loadComponent: () =>
-      import('./sales/sale-update/sale-update.component').then((mod) => mod.SaleUpdateComponent),
+      import('./sales/sale-update/sale.update.component').then((mod) => mod.SaleUpdateComponent),
   },
 ];

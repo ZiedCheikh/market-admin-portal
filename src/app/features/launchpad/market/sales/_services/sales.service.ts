@@ -1,31 +1,23 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
 import { Sale } from '../_models/sale.model';
+import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SalesService {
-  private sales: Sale[] = [];
+  private baseUrl = environment.salesApiUrl;
 
-  $sales = new BehaviorSubject<Sale[]>([]);
+  constructor(private http: HttpClient) {}
 
-  get allSales() {
-    const storedSales = localStorage.getItem('sales');
-    if (storedSales !== null) {
-      this.sales = JSON.parse(storedSales); // Now it's safe to pass
-    } else {
-      this.sales = [];
-    }
-    return this.sales;
+  getSalesByStatus(status: string): Observable<Sale[]> {
+    return this.http.get<Sale[]>(`${this.baseUrl}/sales/status/${status}`);
   }
 
-  getSales(): Observable<Sale[]> {
-    return of(this.allSales);
-  }
-  addSale(saleData: Sale): Observable<Sale> {
-    this.sales = [...this.sales, saleData];
-    localStorage.setItem('sales', JSON.stringify(this.sales));
-    return of(saleData);
+  createSale(saleData: Sale): Observable<Sale> {
+    return this.http.post<Sale>(`${this.baseUrl}/sales`, saleData);
   }
 }

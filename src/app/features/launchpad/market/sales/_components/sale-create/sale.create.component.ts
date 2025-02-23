@@ -6,16 +6,18 @@ import { Store } from '@ngrx/store';
 
 import { SalesState } from '../../_store/sale.reducer';
 import { AddSaleAction } from '../../_store/sale.actions';
+import { Sale } from '../../_models/sale.model';
+import { dateAfterValidator } from '../../../../../../shared/validators/date.after.validator';
 
 @Component({
-  selector: 'app-sale-new',
-  templateUrl: './sale-new.component.html',
-  styleUrl: './sale-new.component.scss',
+  selector: 'app-sale-create',
+  templateUrl: './sale.create.component.html',
+  styleUrl: './sale.create.component.scss',
   imports: [CommonModule, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SaleNewComponent {
-  title = 'Sale new Startup Market';
+export class SaleCreateComponent {
+  title = 'Sale create Startup Market';
 
   submissionStatus = signal<string | null>(null);
   saleForm: FormGroup;
@@ -27,16 +29,20 @@ export class SaleNewComponent {
       title: ['', Validators.required],
       description: ['', Validators.required],
       startDate: ['', Validators.required],
-      endDate: [''],
-      category: [''],
+      endDate: ['', [Validators.required, dateAfterValidator('startDate')]],
     });
   }
 
   onSubmit(): void {
     if (this.saleForm.valid) {
       const saleData = this.saleForm.value;
-      this.store.dispatch(new AddSaleAction(saleData));
-      // Simulate submission success
+      const sale: Sale = {
+        title: saleData.title,
+        description: saleData.description,
+        startDate: saleData.startDate,
+        endDate: saleData.endDate,
+      };
+      this.store.dispatch(new AddSaleAction(sale));
       this.submissionStatus.set('Sale successfully added!');
       this.saleForm.reset();
     } else {
